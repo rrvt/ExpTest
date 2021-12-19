@@ -124,27 +124,3 @@ int x = serial;
   notePad << _T(' ') << rest;
   }
 
-
-
-#if 0
-Words* StoreP::bSearch(TCchar* key) {
-int    n    = data.end();
-int    beg  = 0;
-int    end  = n;
-int    last = -1;
-int    i;
-Words* words;
-
-  for (i = (beg+end)/2; i < n && i != last; last = i, i = (beg+end)/2) {
-
-    words = data[i].p;
-
-    if (key == words->zero) return words;
-    if (key >  words->zero) {beg = i; continue;}
-    if (key <  words->zero) {end = i; continue;}
-    }
-
-  return 0;
-  }
-#endif
-

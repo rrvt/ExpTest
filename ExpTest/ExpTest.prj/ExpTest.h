@@ -2,11 +2,11 @@
 
 #pragma once
 #include "CApp.h"
-
+#include "MainFrame.h"
 
 class ExpTestDoc;
 class ExpTestView;
-class MainFrame;
+class ToolBar;
 
 
 // ExpTest:
@@ -38,4 +38,6 @@ extern ExpTest theApp;
 inline void             invalidate() {theApp.invalidate();}
 inline ExpTestDoc*  doc()        {return theApp.doc();}
 inline ExpTestView* view()       {return theApp.view();}
+inline MainFrame*   mainFrm()    {return theApp.mainFrm();}
+inline ToolBar&     getToolBar() {return mainFrm()->getToolBar();}
 

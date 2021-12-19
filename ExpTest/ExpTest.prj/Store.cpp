@@ -96,20 +96,3 @@ String s;
     }
   }
 
-
-#if 0
-void Store::display2() {
-StoreIter iter(*this);
-Datum*    dtm;
-String    s;
-
-  notePad << _T("No. of Entries in StoreP: ") << nData() << nCrlf << nCrlf;
-
-  for (dtm = iter(); dtm; dtm = iter++) {
-    s.format(_T("%3i/%5i: "), iter.index(),  dtm->key);
-
-    notePad << s << dtm->line;
-    }
-  }
-#endif
-

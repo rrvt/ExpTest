@@ -31,7 +31,7 @@ public:                                             // Overrides
 
   void     setupToolBar();
 
-  ToolBar* getToolBar() {return &toolBar;}
+  ToolBar& getToolBar() {return toolBar;}
 
 #ifdef _DEBUG
   virtual void AssertValid() const;

@@ -15,6 +15,7 @@
 #include "ExpTestView.h"
 #include "Store.h"
 #include "StoreP.h"
+#include "TBBtnCtx.h"
 #include "ToolBar.h"
 
 
@@ -294,64 +295,42 @@ BOOL ExpTestDoc::OnNewDocument() {return CDocument::OnNewDocument();}
 
 #ifdef Examples
 
-static TCchar* cbText[] = {_T("Zeta"),
-                           _T("Beta"),
-                           _T("Alpha"),
-                           _T("Omega"),
-                           _T("Phi"),
-                           _T("Mu"),
-                           _T("Xi"),
-                           _T("Omicron"),
-                           _T("Pi"),
-                           _T("Rho"),
-                           _T("Sigma"),
-                           _T("Nu"),
-                           _T("Kappa"),
-                           _T("Iota")
+static CbxItem cbText[] = {{_T("Zeta"),     1},
+                           {_T("Beta"),     2},
+                           {_T("Alpha"),    3},
+                           {_T("Omega"),    4},
+                           {_T("Phi"),      5},
+                           {_T("Mu"),       6},
+                           {_T("Xi"),       7},
+                           {_T("Omicron"),  8},
+                           {_T("Pi"),       9},
+                           {_T("Rho"),     10},
+                           {_T("Sigma"),   11},
+                           {_T("Nu"),      12},
+                           {_T("Kappa"),   13},
+                           {_T("Iota"),    14}
                            };
 
 
+// void addCbxItems(  uint id, CbxItem* items, int nItems, TBBtnCtx& ctx, bool sorted = true);
+
+
 void ExpTestDoc::myButton() {
-TBComboBox* cb = TBComboBox::get(ID_CB);
-int n = noElements(cbText);
-int i;
-int x;
+ToolBar& toolBar = mainFrm()->getToolBar();
+TBBtnCtx ctx;
 
-  dataSource = NotePadSrc;
-
-  notePad << _T("My Button") << nCrlf;
-
-  if (!cb) {invalidate();  return;}
-
-//  cb->SetText(_T("Greeks"));
-
-  for (i = 0; i < n; i++) if (cb->findExact(cbText[i]) < 0) {
-
-    x = cb->AddSortedItem(cbText[i], i);                           //AddSortedItem
-
-    String s;  s.format(_T("%02i: "), i);
-
-    notePad << s << _T("Pos = ") << x << _T(". Added ") << cbText[i] << nCrlf;
-    }
-
-  cb->SelectItem(-1);
-  cb->SetText(_T("Greeks"));
+  toolBar.addCbxItems(ID_CB, cbText, noElements(cbText), ctx);
 
   notePad << _T("Greeks") << nCrlf;  display(NotePadSrc);
   }
 
 
 void ExpTestDoc::OnComboBoxChng() {
-TBComboBox* cb = TBComboBox::get(ID_CB);
-int        i;
+ToolBar& toolBar = mainFrm()->getToolBar();
 String     s;
 int        x;
-MainFrame* mf = theApp.mainFrm();
 
-  if (!cb)   return;
-  i  = cb->GetCurSel();    if (i < 0) return;
-  s  = cb->GetItem(i);
-  x  = cb->GetItemData(i);   mf->SetFocus();
+  if (!toolBar.getCbxSel(ID_CB, s, x)) return false;
 
   notePad << _T("On Change, Item = ") << s << _T(", Data = ") << x << nCrlf;
 

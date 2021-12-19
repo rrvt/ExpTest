@@ -17,6 +17,9 @@ followed by one or more of the remaning tests.  After each test the entire vecto
 effect of the test may be observed.  The only time the display is cleared is before the load so that one
 can compare the initial load with the effect of the tests.
 
+Note:  This is probably the version of Expandable and ExpandbleP that should have accompanied the
+CodeProject article.
+
 ## Getting Started
 
 This version was created with Visual Studion 2017.  It was compiled with the following properties:
@@ -62,6 +65,17 @@ correct.
 One of the critical tests is to run many tests and then exit the program.  If this is done in the debugger
 in the debug version any lost memory blocks will be listed.  There should be no lost memory blocks as
 in Windows they cannot be recoved by exiting an application.
+
+## Updates
+
+
+### Update 12/18/21
+
+While creating a template for a dialog box only application with a toolbar the Library was added to and
+changed to hopefully simplify toolbar creation.  This version of the toolbar includes buttons, edit boxes,
+combo boxes and drop down menus as well as the traditional 16x15 icons.
+
+ExpTest includes four drop down menus on the toolbar.
 
 ## Authors
 

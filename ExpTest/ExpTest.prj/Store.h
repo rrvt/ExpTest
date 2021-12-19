@@ -74,11 +74,11 @@ public:
 
 private:
 
-  // returns either a pointer to data (or datum) at index i in array or zero
+  // returns either a pointer to datum at index i in array or zero
 
   Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}       // or data[i].p
 
-  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
+  void   removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 
   friend typename StoreIter;
   };

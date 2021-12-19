@@ -63,22 +63,12 @@ int MainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 
 void MainFrame::setupToolBar() {
-  if (!menu1.m_hMenu) menu1.LoadMenu(IDR_PopupMenu1);
-  if (!menu2.m_hMenu) menu2.LoadMenu(IDR_PopupMenu2);
-  if (!menu3.m_hMenu) menu3.LoadMenu(IDR_PopupMenu3);
-  if (!menu4.m_hMenu) menu4.LoadMenu(IDR_PopupMenu4);
-  toolBar.setMnuCtrl(ID_Btn1, menu1.GetSafeHmenu(), _T("Load StoreP"));
-  toolBar.setMnuCtrl(ID_Btn2, menu2.GetSafeHmenu(), _T("Load StoreP Sorted"));
-  toolBar.setMnuCtrl(ID_Btn3, menu3.GetSafeHmenu(), _T("Load Store"));
-  toolBar.setMnuCtrl(ID_Btn4, menu4.GetSafeHmenu(), _T("Load Store Sorted"));
+CRect winRect;   GetWindowRect(&winRect);   toolBar.initialize(winRect);
 
-#if 0
-
-  toolBar.setBtnCtrl(ID_MyBtn,  _T("Load Combo"), 100);
-  toolBar.setCbxCtrl(ID_CB,      100, 500);
-  toolBar.setEbxCtrl(ID_EditBox, 100);
-#endif
-  toolBar.install();
+  toolBar.installMenu(ID_Btn1, IDR_PopupMenu1, _T("Load StoreP"));
+  toolBar.installMenu(ID_Btn2, IDR_PopupMenu2, _T("Load StoreP Sorted"));
+  toolBar.installMenu(ID_Btn3, IDR_PopupMenu3, _T("Load Store"));
+  toolBar.installMenu(ID_Btn4, IDR_PopupMenu4, _T("Load Store Sorted"));
   }
 
 
