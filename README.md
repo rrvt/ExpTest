@@ -68,6 +68,14 @@ in Windows they cannot be recoved by exiting an application.
 
 ## Updates
 
+### Update 01/31/22
+
+Updates to the library, mostly about the toolbar, but also NewAllocator, and a minor addition to
+Expandable.
+
+Also scrubbed the project files to remove all references to precompiled header files which I turned off
+in VS17.  Unfortnately VS does not remove all references and pch files kept cropping up.  Not only does
+that slow down the compiler but the files are large...
 
 ### Update 12/18/21
 

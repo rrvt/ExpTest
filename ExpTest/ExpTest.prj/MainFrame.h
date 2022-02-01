@@ -11,10 +11,6 @@ class MainFrame : public CMainFrm {
 CMFCMenuBar   m_wndMenuBar;
 ToolBar       toolBar;
 CMFCStatusBar m_wndStatusBar;
-CMenu         menu1;
-CMenu         menu2;
-CMenu         menu3;
-CMenu         menu4;
 
 protected:                                          // create from serialization only
 
@@ -30,8 +26,8 @@ public:                                             // Overrides
   virtual ~MainFrame();
 
   void     setupToolBar();
-
   ToolBar& getToolBar() {return toolBar;}
+
 
 #ifdef _DEBUG
   virtual void AssertValid() const;
@@ -42,8 +38,10 @@ protected:                                          // Generated message map fun
 
   DECLARE_MESSAGE_MAP()
 
-  afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+  afx_msg int     OnCreate(LPCREATESTRUCT lpCreateStruct);
   afx_msg LRESULT OnResetToolBar(WPARAM wParam, LPARAM lParam);
-  };
+public:
+  afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+};
 
 

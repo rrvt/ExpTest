@@ -1,98 +1,93 @@
-// Store Example
+// Sample Data Store
 
 
 #include "stdafx.h"
 #include "Store.h"
-#include "FileIO.h"
 #include "NotePad.h"
-#include "Random.h"
+#include "qsort.h"
 
 
-Store store;
+const int TabVal = 5;
 
 
-void Store::load(TCchar* filePath) {
-FileIO fil;
-int    i;
-String line;
-Random rand(213);
+Store store;                                        // Global since all classes need access
 
-  path = filePath;   data.clear();
 
-  if (fil.open(path, FileIO::Read)) {
-    notePad << filePath << " opened" << nCrlf << nCrlf;
 
-    for (i = 0; fil.read(line); i++) {
-      Datum& dtm = data[i];
-      ulong  r   = ulong(rand.next() * 1000.0);             // construct a random number
+void Store::setName(String& s) {name = s; dt.getToday();}
 
-      dtm.key = r * 100 + i; dtm.line = line.trimRight();   // Shift the random number and make unique
-      }
-    }
 
-  fil.close();
+int Store::missionNo() {
+  if (!mssnNo) {Date d; d.getToday();   CTimeSpan t = d - dt;  mssnNo = t.GetSeconds() % 60;}
+
+  return mssnNo;
   }
 
 
-void Store::appendDatum(TCchar* filePath) {
-FileIO fil;
-String line;
-int    i = 0;
-Random rand(213);
+// Load is called from serialize in the Document class
+// The basic idea is that the method reads some chunk from the file (Archive is a fileio surrogate)
 
-  path = filePath;   data.clear();
-
-  if (fil.open(path, FileIO::Read)) {
-    notePad << filePath << " opened" << nCrlf;
-
-    while (fil.read(line)) {
-      Datum dtm;
-      ulong r = ulong(rand.next() * 1000.0);
-
-      dtm.key = r * 100 + i++;   dtm.line = line.trimRight();   data += dtm;
-      }
-    }
-
-  fil.close();
-  }
-
-
-void Store::loadSorted(TCchar* filePath) {
-FileIO fil;
-String line;
-int    i = 0;
-Random rand(213);
-
-  path = filePath;   data.clear();
-
-  if (fil.open(path, FileIO::Read)) {
-    notePad << filePath << " opened" << nCrlf << nCrlf;
-
-    while (fil.read(line)) {
-      Datum dtm;
-      ulong r = ulong(rand.next() * 1000.0);
-
-      dtm.key = r * 100 + i++; dtm.line = line.trimRight();   data = dtm;
-      }
-    }
-
-  fil.close();
-  }
-
-
-void Store::display() {
-int    n = data.end();
-int    i;
+void Store::load(Archive& ar) {
 String s;
 
-  notePad << nClrTabs << nSetRTab(3) << nSetRTab(13) << nSetTab(15);
+  data.clear();
 
-  notePad << _T("No. of Entries in Store: ") << nData() << nCrlf << nCrlf;
-
-  for (i = 0; i < n; i++) {
-    Datum& d = data[i];
-
-    notePad << nTab << i << nTab << d.key << nTab << d.line << nCrlf;
-    }
+  while (ar.read(s)) add(s);
   }
+
+
+void Store::store(Archive& ar) {
+
+  }
+
+
+void Store::add(String& s) {data.nextData().add(s);}
+
+
+
+
+// Parse the data into the record
+
+void Datum::add(String& stg) {
+int pos = stg.find('\n');
+
+  s = pos >= 0 ? stg.substr(0, pos) : stg;
+  }
+
+
+void Store::sort() {qsort(&data[0], &data[data.end()-1]);}
+
+
+
+
+int Datum::wrap(Device& dev, CDC* dc) {
+int  chWidth = dev.flChWidth();
+
+  dev << dCR << dClrTabs << dSetTab(TabVal) << dTab;    // Return to left margin (dCR), clear Tabs and
+                                                        // tab to position desired for wrap
+    wrp.initialize(dc, dev.remaining(), dev.maxWidth(), false);
+
+  dev<< dCR << dClrTabs;                                // return to left margin and clear tabs
+
+  return wrp(s);                                        // wrap string
+  }
+
+
+
+int Datum::display() {
+WrapIter  iter(wrp);
+WrapData* wd;
+int       i;
+
+  notePad << nClrTabs << nSetTab(TabVal) << nTab;       // The tab is set to the same value as in wrap
+
+  for (wd = iter(), i = 0; wd; wd = iter++, i++) {
+    if (i) notePad << nTab;
+
+    notePad << wd->line << nCrlf;
+    }
+
+  return i;
+  }
+
 

@@ -5,11 +5,8 @@
 #include "CDoc.h"
 #include "MainFrame.h"
 
-class Words;
-class Datum;
-#define SimpleStore
 
-enum DataSource {NotePadSrc};
+enum DataSource {NotePadSrc, StoreSrc, FontSrc};
 
 
 class ExpTestDoc : public CDoc {
@@ -42,18 +39,6 @@ public:
 
 private:
 
-  bool askPath();
-  void linearSrchP();
-  void binarySrchP();
-  void insertDelP();
-  void display(Words* words);
-
-  void linearSrch();
-  void binarySrch();
-  void insertDel();
-  void dspRslt(TCchar* key, Words* words);
-  void dspRslt(ulong   key, Datum* datum);
-
   void testLine(int n);
   void wholePage();
 
@@ -65,28 +50,7 @@ protected:
 
 public:
 
-  afx_msg void onOption11();
-  afx_msg void onOption12();
-  afx_msg void onOption13();
-  afx_msg void onOption14();
-  afx_msg void onOption15();
-
-  afx_msg void onOption21();
-  afx_msg void onOption22();
-  afx_msg void onOption23();
-  afx_msg void onOption24();
-
-  afx_msg void onOption31();
-  afx_msg void onOption32();
-  afx_msg void onOption33();
-  afx_msg void onOption34();
-  afx_msg void onOption35();
-
-  afx_msg void onOption41();
-  afx_msg void onOption42();
-  afx_msg void onOption43();
-  afx_msg void onOption44();
-
+  afx_msg void OnFileOpen();
   afx_msg void OnFileSave();
   afx_msg void OnOptions();
 
@@ -99,6 +63,12 @@ public:
 
   afx_msg void OnTBEditBox();
   afx_msg void myButton1();
+  afx_msg void onOption11();
+  afx_msg void onOption12();
+  afx_msg void onOption13();
+  afx_msg void onOption21();
+  afx_msg void onOption22();
+  afx_msg void onOption23();
   afx_msg void OnTestEditBoxes();
 #endif
   };

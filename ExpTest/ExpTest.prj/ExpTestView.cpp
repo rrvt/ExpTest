@@ -54,7 +54,7 @@ DataSource ds = doc()->dataSrc();
     switch(ds) {
       case NotePadSrc : prtNote.print(*this);  break;
 #ifdef Examples
-//      case StoreSrc   : prtStore.print(*this); break;
+      case StoreSrc   : prtStore.print(*this); break;
 #endif
       }
 
@@ -62,7 +62,7 @@ DataSource ds = doc()->dataSrc();
     switch(ds) {
       case NotePadSrc : dspNote.display(*this);  break;
 #ifdef Examples
-//      case StoreSrc   : dspStore.display(*this); break;
+      case StoreSrc   : dspStore.display(*this); break;
 #endif
       }
 
@@ -75,7 +75,7 @@ void ExpTestView::OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo) {
 
   switch(doc()->dataSrc()) {
     case NotePadSrc : setOrientation(options.orient); break;    // Setup separate Orientation?
-//    case StoreSrc   : setOrientation(options.orient); break;
+    case StoreSrc   : setOrientation(options.orient); break;
     }
   setPrntrOrient(theApp.getDevMode(), pDC);   CScrView::OnBeginPrinting(pDC, pInfo);
   }
@@ -89,7 +89,7 @@ void ExpTestView::printFooter(Device& dev, int pageNo) {
   switch(doc()->dataSrc()) {
     case NotePadSrc : prtNote.footer(dev, pageNo);  break;
 #ifdef Examples
-//    case StoreSrc   : prtStore.footer(dev, pageNo); break;
+    case StoreSrc   : prtStore.footer(dev, pageNo); break;
 #endif
     }
   }
@@ -102,7 +102,7 @@ void ExpTestView::OnEndPrinting(CDC* pDC, CPrintInfo* pInfo) {
 
   switch(doc()->dataSrc()) {
     case NotePadSrc : break;
-//    case StoreSrc   : break;
+    case StoreSrc   : break;
     }
   }
 
@@ -113,7 +113,7 @@ void ExpTestView::OnSetFocus(CWnd* pOldWnd) {
 
   switch(doc()->dataSrc()) {
     case NotePadSrc : break;
-//    case StoreSrc   : break;
+    case StoreSrc   : break;
     }
   }
 

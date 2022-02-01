@@ -3,19 +3,18 @@
 
 #include "stdafx.h"
 #include "ExpTestDoc.h"
+#ifdef Examples
+#include "Store.h"
+#endif
 #include "ExtraResource.h"
 #include "filename.h"
 #include "GetPathDlg.h"
-#include "IndexDlg.h"
 #include "MessageBox.h"
 #include "NotePad.h"
 #include "Options.h"
 #include "Resource.h"
 #include "ExpTest.h"
 #include "ExpTestView.h"
-#include "Store.h"
-#include "StoreP.h"
-#include "TBBtnCtx.h"
 #include "ToolBar.h"
 
 
@@ -24,48 +23,31 @@
 IMPLEMENT_DYNCREATE(ExpTestDoc, CDoc)
 
 BEGIN_MESSAGE_MAP(ExpTestDoc, CDoc)
-
-  ON_COMMAND(ID_Btn1,          &onOption11)
-  ON_COMMAND(ID_Option11,      &onOption11)
-  ON_COMMAND(ID_Option12,      &onOption12)
-  ON_COMMAND(ID_Option13,      &onOption13)
-  ON_COMMAND(ID_Option14,      &onOption14)
-  ON_COMMAND(ID_Option15,      &onOption15)
-
-  ON_COMMAND(ID_Btn2,          &onOption21)
-  ON_COMMAND(ID_Option21,      &onOption21)
-  ON_COMMAND(ID_Option22,      &onOption22)
-  ON_COMMAND(ID_Option23,      &onOption23)
-  ON_COMMAND(ID_Option24,      &onOption24)
-
-  ON_COMMAND(ID_Btn3,          &onOption31)
-  ON_COMMAND(ID_Option31,      &onOption31)
-  ON_COMMAND(ID_Option32,      &onOption32)
-  ON_COMMAND(ID_Option33,      &onOption33)
-  ON_COMMAND(ID_Option34,      &onOption34)
-  ON_COMMAND(ID_Option35,      &onOption35)
-
-  ON_COMMAND(ID_Btn4,          &onOption41)
-  ON_COMMAND(ID_Option41,      &onOption41)
-  ON_COMMAND(ID_Option42,      &onOption42)
-  ON_COMMAND(ID_Option43,      &onOption43)
-  ON_COMMAND(ID_Option44,      &onOption44)
-
-  ON_COMMAND(ID_File_Save,     &OnFileSave)
-  ON_COMMAND(ID_Options,       &OnOptions)
+  ON_COMMAND(      ID_File_Open,  &OnFileOpen)
+  ON_COMMAND(      ID_File_Save,  &OnFileSave)
+  ON_COMMAND(      ID_Options,    &OnOptions)
 
 #ifdef Examples
-  ON_COMMAND(ID_Test,          &OnTest)
-  ON_COMMAND(ID_SelDataStr,    &displayDataStore)
+  ON_COMMAND(      ID_Test,       &OnTest)
+  ON_COMMAND(      ID_SelDataStr, &displayDataStore)
 
-  ON_COMMAND(ID_MyBtn,         &myButton)
+  ON_COMMAND(      ID_Btn1,       &myButton)
 
-  ON_CBN_SELCHANGE(ID_CB,      &OnComboBoxChng)
-  ON_COMMAND(      ID_CB,      &OnComboBoxChng)
+  ON_CBN_SELCHANGE(ID_CBox,       &OnComboBoxChng)
+  ON_COMMAND(      ID_CBox,       &OnComboBoxChng)
 
-  ON_COMMAND(ID_EditBox,       &OnTBEditBox)
+  ON_CBN_KILLFOCUS(ID_EditBox,    &OnTBEditBox)
+  ON_COMMAND(      ID_EditBox,    &OnTBEditBox)
 
+  ON_COMMAND(      ID_Menu1,      &onOption11)
+  ON_COMMAND(      ID_Option11,   &onOption11)
+  ON_COMMAND(      ID_Option12,   &onOption12)
+  ON_COMMAND(      ID_Option13,   &onOption13)
 
+  ON_COMMAND(      ID_Menu2,      &onOption21)
+  ON_COMMAND(      ID_Option21,   &onOption21)
+  ON_COMMAND(      ID_Option22,   &onOption22)
+  ON_COMMAND(      ID_Option23,   &onOption23)
 #endif
 END_MESSAGE_MAP()
 
@@ -79,282 +61,78 @@ ExpTestDoc::ExpTestDoc() noexcept : dataSource(NotePadSrc) {
 ExpTestDoc::~ExpTestDoc() { }
 
 
-
-void ExpTestDoc::onOption11()
-                            {if (askPath()) {storeP.load(path); storeP.display();}  display(NotePadSrc);}
-void ExpTestDoc::onOption12() {linearSrchP();  display(NotePadSrc);}
-void ExpTestDoc::onOption13() {binarySrchP();  display(NotePadSrc);}
-void ExpTestDoc::onOption14() {insertDelP();   display(NotePadSrc);}
-void ExpTestDoc::onOption15() {
-  storeP.sort();   notePad << nCrlf << _T("Sorted Result") << nCrlf;
-
-  storeP.display();   display(NotePadSrc);
-  }
-
-
-void ExpTestDoc::onOption21()
-                   {if (askPath()) {storeP.loadSorted(path);   storeP.display();}   display(NotePadSrc);}
-
-void ExpTestDoc::onOption22() {linearSrchP();  display(NotePadSrc);}
-void ExpTestDoc::onOption23() {binarySrchP();  display(NotePadSrc);}
-void ExpTestDoc::onOption24() {insertDelP();   display(NotePadSrc);}
-
-
-void ExpTestDoc::linearSrchP() {
-StorePIter iter(storeP);
-Words*     words;
-
-  notePad.clear();
-
-  notePad << _T("Linear Search of StoreP Object") << nCrlf;
-
-  notePad << nClrTabs << nSetTab(40) << nSetTab(50);
-
-  for (words = iter(); words; words = iter++) dspRslt(words->zero, storeP.find(words->zero));
-  }
-
-
-void ExpTestDoc::binarySrchP() {
-StorePIter iter(storeP);
-Words*     words;
-
-  notePad.clear();
-
-  notePad << _T("Binary Search of StoreP Object") << nCrlf;
-
-  notePad << nClrTabs << nSetTab(40) << nSetTab(50);
-
-  for (words = iter(); words; words = iter++) dspRslt(words->zero, storeP.bSearch(words->zero));
-  }
-
-
-void ExpTestDoc::insertDelP() {
-IndexDlg dlg;
-String   s;
-int      x;
-uint     i;
-Words    words;
-int      n = storeP.nData();
-
-  words.serial = 999;
-  words.zero   = _T("XXXXXX");
-  words.one    = _T("YYYYYYY");
-
-  dlg.indexReq = s.format(_T("%s %i"), _T("Pick an index (zero indexing) between 0 and "), n);
-
-  if (dlg.DoModal() != IDOK) return;
-
-  s = dlg.index;   x = s.stoi(i);
-
-  if (!storeP.insert(x, words)) {notePad << _T("Insertion Failed") << nCrlf; return;}
-
-  notePad << nCrlf << _T("After Insertion") << nCrlf << nCrlf;    storeP.display();
-
-  if (!storeP.del(x)) {notePad << _T("Deletion Failed") << nCrlf; return;}
-
-  notePad << nCrlf << _T("After Delete") << nCrlf << nCrlf;    storeP.display();
-  }
-
-
-
-void ExpTestDoc::dspRslt(TCchar* key, Words* words) {
-
-  notePad << _T("Key: ") << key << nTab;
-
-  if (words) {notePad << _T(" -- found: ") << nTab;   display(words);}
-  else        notePad << _T(" *** not found ***");
-
-  notePad << nCrlf;
-  }
-
-
-void ExpTestDoc::display(Words* words) {
-                               notePad << words->zero;
-  if (!words->one.isEmpty())   notePad << _T(", ") << words->one;
-  if (!words->two.isEmpty())   notePad << _T(", ") << words->two;
-  if (!words->three.isEmpty()) notePad << _T(", ") << words->three;
-  if (!words->rest.isEmpty())  notePad << _T(", ") << words->rest;
-  }
-
-
-#ifdef SimpleStore
-
-void ExpTestDoc::onOption31()
-                            {if (askPath()) {store.load(path); store.display();}    display(NotePadSrc);}
-#else
-void ExpTestDoc::onOption31() { }
-#endif
-
-void ExpTestDoc::onOption32() {linearSrch();   display(NotePadSrc);}
-void ExpTestDoc::onOption33() {binarySrch();   display(NotePadSrc);}
-void ExpTestDoc::onOption34() {insertDel();    display(NotePadSrc);}
-void ExpTestDoc::onOption35() {
-
-  store.sort();   notePad << nCrlf << _T("Sorted Result") << nCrlf;
-
-  store.display();   display(NotePadSrc);
-  }
-
-#ifdef SimpleStore
-
-void ExpTestDoc::onOption41()
-                      {if (askPath()) {store.loadSorted(path);  store.display();}   display(NotePadSrc);}
-#else
-void ExpTestDoc::onOption41() { }
-#endif
-
-
-void ExpTestDoc::onOption42() {linearSrch();   display(NotePadSrc);}
-void ExpTestDoc::onOption43() {binarySrch();   display(NotePadSrc);}
-void ExpTestDoc::onOption44() {insertDel();    display(NotePadSrc);}
-
-
-bool ExpTestDoc::askPath() {
-
-  notePad.clear();
-
-  pathDlgDsc = PathDlgDsc(_T("Data File"), pathDlgDsc.name, _T("txt"), _T("*.txt"));
-
-  return getPathDlg(pathDlgDsc, path);
-  }
-
-
-#ifdef SimpleStore
-
-void ExpTestDoc::linearSrch() {
-StoreIter iter(store);
-Datum*    datum;
-
-  notePad.clear();
-
-  notePad << _T("Linear Search of StoreP Object") << nCrlf;
-
-  notePad << nClrTabs << nSetRTab(10) << nSetTab(12) << nSetRTab(25) << nSetTab(27);
-
-  for (datum = iter(); datum; datum = iter++) dspRslt(datum->key, store.find(datum->key));
-  }
-
-
-void ExpTestDoc::binarySrch() {
-StoreIter iter(store);
-Datum*    datum;
-
-  notePad.clear();
-
-  notePad << _T("Binary Search of StoreP Object") << nCrlf;
-
-  notePad << nClrTabs << nSetRTab(10) << nSetTab(12) << nSetRTab(25) << nSetTab(27);
-
-  for (datum = iter(); datum; datum = iter++) dspRslt(datum->key, store.bSearch(datum->key));
-  }
-
-
-void ExpTestDoc::insertDel() {
-IndexDlg dlg;
-String   s;
-int      x;
-uint     i;
-Datum    datum;
-int      n = store.nData();
-
-  datum.key    = 999999;
-  datum.line   = _T("XXXXXX YYYYYYY");
-
-  dlg.indexReq = s.format(_T("%s %i"), _T("Pick an index (zero indexing) between 0 and "), n);
-
-  if (dlg.DoModal() != IDOK) return;
-
-  s = dlg.index;   x = s.stoi(i);
-
-  if (!store.insert(x, datum)) {notePad << _T("Insertion Failed") << nCrlf; return;}
-
-  notePad << nCrlf << _T("After Insertion") << nCrlf << nCrlf;    store.display();
-
-  if (!store.del(x)) {notePad << _T("Deletion Failed") << nCrlf; return;}
-
-  notePad << nCrlf << _T("After Delete") << nCrlf << nCrlf;    store.display();
-  }
-
-
-void ExpTestDoc::dspRslt(ulong key, Datum* datum) {
-
-  notePad << _T("Key: ") << nTab << key << nTab;
-
-  if (datum) {notePad << _T(" -- found: ") << nTab << datum->key << nTab << datum->line;}
-  else        notePad << _T(" *** not found ***");
-
-  notePad << nCrlf;
-  }
-#else
-void ExpTestDoc::linearSrch() { }
-void ExpTestDoc::binarySrch() { }
-#endif
-
-
 BOOL ExpTestDoc::OnNewDocument() {return CDocument::OnNewDocument();}
 
 #ifdef Examples
 
-static CbxItem cbText[] = {{_T("Zeta"),     1},
-                           {_T("Beta"),     2},
-                           {_T("Alpha"),    3},
-                           {_T("Omega"),    4},
-                           {_T("Phi"),      5},
-                           {_T("Mu"),       6},
-                           {_T("Xi"),       7},
-                           {_T("Omicron"),  8},
-                           {_T("Pi"),       9},
-                           {_T("Rho"),     10},
-                           {_T("Sigma"),   11},
-                           {_T("Nu"),      12},
-                           {_T("Kappa"),   13},
-                           {_T("Iota"),    14}
-                           };
-
-
-// void addCbxItems(  uint id, CbxItem* items, int nItems, TBBtnCtx& ctx, bool sorted = true);
+static CbxItem cbxText[] = {{_T("Zeta"),     1},
+                            {_T("Beta"),     2},
+                            {_T("Alpha"),    3},
+                            {_T("Omega"),    4},
+                            {_T("Phi"),      5},
+                            {_T("Mu"),       6},
+                            {_T("Xi"),       7},
+                            {_T("Omicron"),  8},
+                            {_T("Pi"),       9},
+                            {_T("Rho"),     10},
+                            {_T("Sigma"),   11},
+                            {_T("Nu"),      12},
+                            {_T("Kappa"),   13},
+                            {_T("Iota"),    14}
+                            };
+static TCchar* CbxCaption = _T("Greeks");
 
 
 void ExpTestDoc::myButton() {
-ToolBar& toolBar = mainFrm()->getToolBar();
-TBBtnCtx ctx;
+ToolBar& toolBar = getToolBar();
 
-  toolBar.addCbxItems(ID_CB, cbText, noElements(cbText), ctx);
+  toolBar.addCbxItems(  ID_CBox, cbxText, noElements(cbxText));
+  toolBar.setCbxCaption(ID_CBox, CbxCaption);
 
-  notePad << _T("Greeks") << nCrlf;  display(NotePadSrc);
+  notePad << _T("Loaded ") << CbxCaption << _T(" into ComboBx") << nCrlf;  display(NotePadSrc);
   }
 
 
 void ExpTestDoc::OnComboBoxChng() {
-ToolBar& toolBar = mainFrm()->getToolBar();
-String     s;
-int        x;
+ToolBar& toolBar = getToolBar();
+String   s;
+int      x;
 
-  if (!toolBar.getCbxSel(ID_CB, s, x)) return false;
-
-  notePad << _T("On Change, Item = ") << s << _T(", Data = ") << x << nCrlf;
-
+  if (toolBar.getCbxSel(ID_CBox, s, x))
+                               notePad << _T("On Change, Item = ") << s << _T(", Data = ") << x << nCrlf;
   display(NotePadSrc);
   }
 
 
 
 void ExpTestDoc::OnTBEditBox() {
-TBEditBox*  eb = TBEditBox::get(ID_EditBox);   if (!eb) return;
-String      s  = eb->GetContentsAll(ID_EditBox);
+ToolBar& toolBar = getToolBar();
+String   s;
 
-  notePad << s << nCrlf;   display(NotePadSrc);
+  if (toolBar.getEbxText(ID_EditBox, s)) notePad << s << nCrlf;
+
+  display(NotePadSrc);
   }
 
 
 void ExpTestDoc::myButton1() {
-TBEditBox* eb = TBEditBox::get(ID_EditBox);   if (!eb) return;
-String     s  = eb->GetContentsAll(ID_EditBox);
+ToolBar& toolBar = getToolBar();
+String   s;
 
-  notePad << s << nCrlf;   display(NotePadSrc);
+  if (toolBar.getEbxText(ID_EditBox, s)) notePad << s << nCrlf;
+
+  display(NotePadSrc);
   }
 
 
+void ExpTestDoc::onOption11() {notePad << _T("Option 11") << nCrlf; display(NotePadSrc);}
+void ExpTestDoc::onOption12() {notePad << _T("Option 12") << nCrlf; display(NotePadSrc);}
+void ExpTestDoc::onOption13() {notePad << _T("Option 13") << nCrlf; wholePage(); display(NotePadSrc);}
+
+
+void ExpTestDoc::onOption21() {notePad << _T("Option 21") << nCrlf; display(NotePadSrc);}
+void ExpTestDoc::onOption22() {notePad << _T("Option 22") << nCrlf; display(NotePadSrc);}
+void ExpTestDoc::onOption23() {notePad << _T("Option 23") << nCrlf; display(NotePadSrc);}
 
 
 void ExpTestDoc::OnTestEditBoxes() {display(NotePadSrc);}
@@ -415,12 +193,32 @@ String s;
   }
 
 
-void ExpTestDoc::displayDataStore() {display(NotePadSrc);}
+void ExpTestDoc::displayDataStore() {display(StoreSrc);}
 
 #endif
 
 
 void ExpTestDoc::OnOptions() {options(view());  view()->setOrientation(options.orient);}
+
+
+void ExpTestDoc::OnFileOpen() {
+
+  notePad.clear();   dataSource = StoreSrc;
+
+  pathDlgDsc = PathDlgDsc(_T("Ugly Example"), pathDlgDsc.name, _T("txt"), _T("*.txt"));
+
+  if (!setPath(pathDlgDsc)) return;
+
+  pathDlgDsc.name = getMainName(path);
+
+  if (!OnOpenDocument(path)) messageBox(_T(" Not Loaded!"));
+
+#ifdef Examples
+  store.setName(pathDlgDsc.name);
+#endif
+
+  display(StoreSrc);
+  }
 
 
 void ExpTestDoc::display(DataSource ds) {dataSource = ds; invalidate();}
@@ -440,23 +238,19 @@ void ExpTestDoc::serialize(Archive& ar) {
     switch(dataSource) {
       case NotePadSrc : notePad.archive(ar); return;
 #ifdef Examples
-  //    case NotePadSrc: store.store(ar); return;
+      case StoreSrc: store.store(ar); return;
 #endif
       default         : return;
       }
 
   else
-#if 1
-  return;
-#else
     switch(dataSource) {
 #ifdef Examples
-    //  case NotePadSrc : store.load(ar); return;
+      case StoreSrc : store.load(ar); return;
 #endif
       case FontSrc  :
       default       : return;
       }
-#endif
   }
 
 

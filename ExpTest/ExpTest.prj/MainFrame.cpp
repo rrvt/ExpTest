@@ -3,7 +3,11 @@
 
 #include "stdafx.h"
 #include "MainFrame.h"
-#include "resource.h"
+#include "AboutDlg.h"
+//#include "ExtraResource.h"
+//#include "resource.h"
+#include "TBBtnCtx.h"
+
 
 
 // MainFrame
@@ -13,6 +17,7 @@ IMPLEMENT_DYNCREATE(MainFrame, CFrameWndEx)
 BEGIN_MESSAGE_MAP(MainFrame, CFrameWndEx)
   ON_WM_CREATE()
   ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)              // MainFrame::
+  ON_WM_SYSCOMMAND()
 END_MESSAGE_MAP()
 
 
@@ -43,14 +48,14 @@ int MainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
   if (CFrameWndEx::OnCreate(lpCreateStruct) == -1) return -1;
 
   if (!m_wndMenuBar.Create(this)) {TRACE0("Failed to create menubar\n"); return -1;}
+
   CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
-  if (!toolBar.CreateEx(this, TBSTYLE_FLAT,
-                                        WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY) ||
-      !toolBar.LoadToolBar(IDR_MAINFRAME, 0, 0, TRUE)) {TRACE0("Failed to create toolbar\n"); return -1;}
+  if (!toolBar.create(this, IDR_MAINFRAME)) {TRACE0("Failed to create status bar\n"); return -1;}
+
+  addAboutToSysMenu(IDD_AboutBox, IDS_AboutBox);
 
   if (!m_wndStatusBar.Create(this)) {TRACE0("Failed to create status bar\n"); return -1;}
-
   m_wndStatusBar.SetIndicators(indicators, noElements(indicators));  //sizeof(indicators)/sizeof(UINT)
 
   DockPane(&m_wndMenuBar);
@@ -62,19 +67,32 @@ int MainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
   }
 
 
-void MainFrame::setupToolBar() {
-CRect winRect;   GetWindowRect(&winRect);   toolBar.initialize(winRect);
+void MainFrame::OnSysCommand(UINT nID, LPARAM lParam) {
 
-  toolBar.installMenu(ID_Btn1, IDR_PopupMenu1, _T("Load StoreP"));
-  toolBar.installMenu(ID_Btn2, IDR_PopupMenu2, _T("Load StoreP Sorted"));
-  toolBar.installMenu(ID_Btn3, IDR_PopupMenu3, _T("Load Store"));
-  toolBar.installMenu(ID_Btn4, IDR_PopupMenu4, _T("Load Store Sorted"));
+  if ((nID & 0xFFF0) == sysAboutID) {AboutDlg aboutDlg; aboutDlg.DoModal(); return;}
+
+  CMainFrm::OnSysCommand(nID, lParam);
   }
 
 
 // MainFrame message handlers
 
 afx_msg LRESULT MainFrame::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();  return 0;}
+
+
+void MainFrame::setupToolBar() {
+
+#ifdef Examples
+CRect winRect;   GetWindowRect(&winRect);   toolBar.initialize(winRect);
+
+  toolBar.installBtn(     ID_Btn1, _T("Load Combo"));
+  toolBar.installMenu(    ID_Menu1, IDR_PopupMenu1, _T("Menu 1"));
+  toolBar.installMenu(    ID_Menu2, IDR_PopupMenu2, _T("Menu 2"));
+  toolBar.installComboBox(ID_CBox);
+  toolBar.installEditBox( ID_EditBox, 20);
+
+#endif
+  }
 
 
 // MainFrame diagnostics
@@ -93,4 +111,3 @@ void MainFrame::Dump(CDumpContext& dc) const
 
 
 // MainFrame message handlers
-
