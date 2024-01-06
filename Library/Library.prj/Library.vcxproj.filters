@@ -66,9 +66,6 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayDev.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DsplyMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,15 +96,6 @@
     <ClCompile Include="IniFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LexTOut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadScratchPad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MessageBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,9 +106,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NotePad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PrintMgr.cpp">
@@ -135,19 +120,10 @@
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShowMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SrchFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Strings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TabStops.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TBButton.cpp">
@@ -177,40 +153,13 @@
     <ClCompile Include="VertMgmt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowPos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Wrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XTerm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FontMgrII.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NotePadRpt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DAOAccess.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DAOfields.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DAOrecords.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DAOtables.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DBtablesB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileName.cpp">
@@ -231,6 +180,78 @@
     <ClCompile Include="StatusBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Xmlparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlStore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlAttributes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Static.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Executable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinPos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Printer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DevBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DevPrntr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DevDsply.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToDevBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FontMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DevTabs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UndrLn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TxtOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NoteNmbr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TxtOps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DevCtx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugBlk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegExpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h">
@@ -249,9 +270,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ComboBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="comdef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CopyFile.h">
@@ -284,9 +302,6 @@
     <ClInclude Include="Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayDev.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DsplyMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -297,9 +312,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Expandable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExpandableP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileIO.h">
@@ -332,16 +344,7 @@
     <ClInclude Include="LexT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LexTOut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadScratchPad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ManipT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="match.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MessageBox.h">
@@ -357,9 +360,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NotePad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrintMgr.h">
@@ -386,16 +386,10 @@
     <ClInclude Include="std.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StringInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Strings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TabStops.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
@@ -434,43 +428,16 @@
     <ClInclude Include="VertMgmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowPos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Wrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XTerm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FontMgrII.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NotePadRpt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DAOAccess.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DAOfields.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DAOrecords.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DBtablesB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DAOtables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileName.h">
@@ -494,5 +461,98 @@
     <ClInclude Include="StatusBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Xmlparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlStore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlAttributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Static.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Executable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinPos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Printer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevPrntr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevDsply.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtPdToPrtr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToDevBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtPdToDsply.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevTabs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UndrLn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TxtOut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NoteNmbr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TxtOps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DevCtx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugBlk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SendMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpandableP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LexErr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegExpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Documentation\XML.pdf" />
   </ItemGroup>
 </Project>

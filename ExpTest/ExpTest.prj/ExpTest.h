@@ -9,10 +9,10 @@ class ExpTestDoc;
 class ExpTestView;
 
 
-// ExpTest:
-// See ExpTest.cpp for the implementation of this class
-
 class ExpTest : public CApp {
+
+String roamPath;
+String appPath;
 
 public:
 
@@ -21,15 +21,16 @@ public:
   virtual BOOL InitInstance();
   virtual int  ExitInstance();
 
-          ExpTestDoc*  doc()  {return (ExpTestDoc*)  CApp::getDoc();}
-          ExpTestView* view() {return (ExpTestView*) CApp::getView();}
-          MainFrame*       mainFrm() {return (MainFrame*) m_pMainWnd;}
+          ExpTestDoc*  doc()         {return (ExpTestDoc*)  CApp::getDoc();}
+          ExpTestView* view()        {return (ExpTestView*) CApp::getView();}
+          MainFrame*       mainFrm()     {return (MainFrame*)       m_pMainWnd;}
+          String&          roamingPath() {return roamPath;}
+          String&          thisAppPath() {return appPath;}
 
   DECLARE_MESSAGE_MAP()
 
-  afx_msg void OnFilePrintSetup();
-  afx_msg void OnAppAbout();
-  afx_msg void OnHelp();
+  afx_msg void onAppAbout();
+  afx_msg void onHelp();
   };
 
 

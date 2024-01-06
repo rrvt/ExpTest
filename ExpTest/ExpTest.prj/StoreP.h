@@ -2,105 +2,101 @@
 
 
 #pragma once
+#include "Archive.h"
+#include "CSVLex.h"
+#include "CSVOut.h"
+#include "Date.h"
 #include "ExpandableP.h"
-#include "FileIO.h"
 #include "IterT.h"
 #include "qsort.h"
+#include "RegExpr.h"
 
 
-class Words {
+class Dtm {
+
 public:
 
-ushort serial;
-bool   thisOne;
-String zero;
-String one;
-String two;
-String three;
-String rest;
+public:
+String title;
+String channel;
+Date   date;
+String comment;
+bool   bobPresent;
+bool   maureenPresent;
 
-  Words() : serial(0), thisOne(false) { }
-  Words(Words& wrds) {copy(wrds);}
- ~Words() {zero.clear(); one.clear(); two.clear(); three.clear(); rest.clear();}
+         Dtm() : bobPresent(false), maureenPresent(false) { }
+         Dtm(Dtm& dtm) {copy(dtm);}
 
-  Words& operator= (Words& wrds) {copy(wrds); return *this;}
+  bool   load(CSVLex& lex);
+  void   save(CSVOut& csv);
 
-  void load(String& line);
+  void   display(int tab);
 
-  void display();
+  Dtm&   operator= (Dtm& dtm) {copy(dtm); return *this;}
 
-  // Required for Insertion Sort, i.e. data = dtm;
-  bool operator>= (Words& w) {return zero >= w.zero;}
-  bool operator== (Words& w) {return zero == w.zero;}
+  // Required for Insertion Sort, i.e. data = dtm;           // _tcsicmp
+  bool   operator>= (Dtm& dtm) {return _tcsicmp(title, dtm.title) >= 0;}
 
-  bool operator<= (Words& w) {return zero <=  w.zero;}
-  bool operator>  (Words& w) {return zero >   w.zero;}
+  // Required for Qsort
+  bool   operator<= (Dtm& dtm)      {return _tcsicmp(title, dtm.title) <= 0;}
+  bool   operator>  (Dtm& dtm)      {return _tcsicmp(title, dtm.title) >  0;}
 
-  // Required for Binary Search
-  bool operator== (TCchar* key) {return zero == key;}
-  bool operator<  (TCchar* key) {return zero <  key;}
-  bool operator<= (TCchar* key) {return zero <= key;}
-  bool operator>  (TCchar* key) {return zero >  key;}
+  // Required for Binary Search                                         // Also required for linear search
+  bool   operator== (const String& title);     // {return _tcsicmp(this->title, title) == 0;}
+  bool   operator<  (const String& title);     // {return _tcsicmp(this->title, title) <  0;}
+  bool   operator>  (const String& title);     // {return _tcsicmp(this->title, title) >  0;}
+
+  bool   operator== (Dtm& dtm)  {return _tcsicmp(title, dtm.title) == 0;}
+
+  // Needed for Regular Expression Searches
+
+  bool     operator== (RegExpr& re) {return re.match(title);}
 
 private:
 
-  void copy(Words& wrds);
+  bool   getLexTok(CSVLex& lex, String& s);
 
-  bool nextWord(String& s, String& word);
+  void   copy(Dtm& dtm);
   };
 
 
+
+typedef DatumPtrT<Dtm, String> DtmP;
 class StoreP;
-typedef IterT<StoreP, Words> StorePIter;
-typedef DatumPtrT<Words> WordsP;
+typedef IterT<StoreP, Dtm> StorePIter;
 
 
 class StoreP {
 
-ExpandableP<Words, WordsP, 2> data;
+int                               ttlLng;
+ExpandableP<Dtm, String, DtmP, 2> data;
 
 public:
 
   StoreP() { }
- ~StoreP() {data.clear();}
+ ~StoreP() { }
 
-  void clear() {data.clear();}
+  void load(Archive& ar);
+  void loadNext(Archive& ar);
+  void loadAppend(Archive& ar);
+  void loadSorted(Archive& ar);
 
-  void load(TCchar* filePath);
-  void loadSorted(TCchar* filePath);
+  void save(Archive& ar);
 
-
-  // allocate a record, copy words into it and insert into data, succeeds when item is inserted,
-  // else fails
-
-  bool insert(int x, Words& words) {return data(x, words);}
-
-  // insert an allocated record into data, succeeds when item is inserted, else fails
-
-  bool insert(int x, Words* words) {return data(x, words);}
-
-  void sort() {qsort(&data[0], &data[nData()-1]);}
-
-  // find words based on pointer in data and delete, succeeds when item is deleted, else fails
-
-  bool del(Words* words) {return data.del(words);}
-
-  // delete record at index x, succeeds when item is deleted, else fails
-
-  bool del(int x)        {return data.del(x);}
+  void sort() {qsort(&data[0], &data[data.end()-1]);}
 
   void display();
 
-  Words* bSearch(TCchar* key) {return data.bSearch(key);}
-  Words* find(   TCchar* key) {return data.find(key);}
-
-  int   nData()      {return data.end();}                       // returns number of data items in array
+  Dtm* bSearch(String& key) {return data.bSearch(key);}
+  Dtm* find(   String& key) {return data.find(key);}
 
 private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
 
-  Words* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}       // note: data[i].p
+  Dtm* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}       // note: data[i].p
+
+  int   nData()      {return data.end();}                       // returns number of data items in array
 
   void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 

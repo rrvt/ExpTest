@@ -12,23 +12,24 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{144E68C3-25F6-44B8-89B0-AC11CCCC8264}</ProjectGuid>
+    <ProjectGuid>{B5864AE4-2EF5-4F21-A11C-8B9C14DB4973}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
-    <RootNamespace>TestApp</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <RootNamespace>ExpTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -60,6 +61,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile />
       <AdditionalIncludeDirectories>
         $(ProjectDir);$(SolutionDir)..\..\Library\Library.prj\;$(SolutionDir)..\..\Library\Extras\;%(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
@@ -68,6 +70,10 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <BasicRuntimeChecks />
       <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,6 +104,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile />
       <AdditionalIncludeDirectories>
         $(ProjectDir);$(SolutionDir)..\..\Library\Library.prj\;$(SolutionDir)..\..\Library\Extras\;%(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
@@ -107,7 +114,10 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <PrecompiledHeaderOutputFile />
       <BasicRuntimeChecks />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +126,7 @@
       <AdditionalDependencies>Htmlhelp.lib</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <ProgramDatabaseFile />
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -132,36 +143,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Extras\AboutDlg.h" />
-    <ClInclude Include="..\..\Library\Extras\ExtraResource.h" />
     <ClInclude Include="..\..\Library\Extras\OptionsDlg.h" />
+    <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
+    <ClInclude Include="..\..\Library\Extras\RptOrientDlgTwo.h" />
     <ClInclude Include="ExpTest.h" />
     <ClInclude Include="ExpTestDoc.h" />
     <ClInclude Include="ExpTestView.h" />
+    <ClInclude Include="FindDlg.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Store.h" />
-    <ClInclude Include="StoreRpt.h" />
+    <ClInclude Include="StoreP.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp" />
     <ClCompile Include="..\..\Library\Extras\OptionsDlg.cpp" />
+    <ClCompile Include="..\..\Library\Extras\RptOrientDlgTwo.cpp" />
     <ClCompile Include="ExpTest.cpp" />
     <ClCompile Include="ExpTestDoc.cpp" />
     <ClCompile Include="ExpTestView.cpp" />
+    <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="MainFrame.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Store.cpp" />
-    <ClCompile Include="StoreRpt.cpp" />
+    <ClCompile Include="StoreP.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
-  <ItemGroup><ResourceCompile Include="ExpTest.rc" /></ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ExpTest.rc" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\Extras\AboutDlg.rc2" />
-    <None Include="res\ExpTest.rc2" />
     <None Include="..\..\Library\Extras\Options.rc2" />
-    <None Include="..\README.md" />
+    <None Include="..\..\Library\Extras\RptOrientTwo.rc2" />
+    <None Include="res\ExpTest.rc2" />
     <None Include="res\Toolbar.bmp" />
+    <None Include="C:\Users\rrvt\AppData\Roaming\ExpTest\ExpTest.ini" />
+    <None Include="..\README.md" />
+    <None Include="..\Data\FreezeReport.230425.txt" />
+    <None Include="..\Data\Store.csv" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\ExpTest.ico" />
@@ -169,7 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Library.prj\Library.vcxproj">
-      <Project>{3CD08AFA-70E2-48AD-A971-371491CBF153}</Project>
+      <Project>{60DAC4CC-98BB-46B2-8DB3-3D5A5AD5FDE8}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

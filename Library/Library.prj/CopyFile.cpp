@@ -2,7 +2,7 @@
 // rrvt 6/5/16
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CopyFile.h"
 #include "Expandable.h"
 #include "filename.h"
@@ -10,7 +10,8 @@
 
 #ifndef Win2K
 #include <filesystem>
-using namespace std::experimental::filesystem;
+//using namespace experimental;
+//using namespace filesystem;
 #endif
 
 
@@ -45,7 +46,8 @@ CFile dstFile(hFile);                                   // Attach a CFile object
 
 bool copyFile(TCchar* source, String& dst) {
 
-  return copy_file(source, dst,  copy_options::overwrite_existing);
+//  return copy_file(source, dst,  copy_options::overwrite_existing);
+  return CopyFile(source, dst, false);
   }
 
 #endif

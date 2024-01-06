@@ -1,17 +1,15 @@
 // ExpTest.cpp : Defines the class behaviors for the application.
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "ExpTest.h"
 #include "AboutDlg.h"
-#include "ExtraResource.h"
-#include "IniFile.h"
-#include "MainFrame.h"
-#include "NotePad.h"
-#include "Options.h"
 #include "ExpTestDoc.h"
 #include "ExpTestView.h"
-
+#include "FileName.h"
+#include "IniFile.h"
+#include "NotePad.h"
+#include "Resource.h"
 
 ExpTest theApp;                       // The one and only ExpTest object
 IniFile     iniFile;
@@ -20,10 +18,10 @@ IniFile     iniFile;
 // ExpTest
 
 BEGIN_MESSAGE_MAP(ExpTest, CWinAppEx)
-  ON_COMMAND(ID_File_New,         &CWinAppEx::OnFileNew)
-  ON_COMMAND(ID_FILE_PRINT_SETUP, &OnFilePrintSetup)
-  ON_COMMAND(ID_Help,             &OnHelp)
-  ON_COMMAND(ID_App_About,        &OnAppAbout)
+
+  ON_COMMAND(ID_Help,      &onHelp)
+  ON_COMMAND(ID_App_About, &onAppAbout)
+
 END_MESSAGE_MAP()
 
 
@@ -34,6 +32,9 @@ BOOL ExpTest::InitInstance() {
   CWinAppEx::InitInstance();
 
   iniFile.setAppDataPath(m_pszHelpFilePath, *this);
+
+  roamPath = getPath(iniFile.getAppDataPath(m_pszHelpFilePath));
+  appPath  = getPath(m_pszHelpFilePath);
 
   notePad.clear();
 
@@ -67,28 +68,13 @@ BOOL ExpTest::InitInstance() {
 
   if (!ProcessShellCommand(cmdInfo)) return FALSE;
 
-  setAppName(_T("Exp Test")); setTitle(_T("Do Test"));
+  setAppName(_T("Expandable Test")); setTitle(_T("Result Window"));
 
   view()->setFont(_T("Arial"), 12.0);
-
-  options.load();    view()->setOrientation(options.orient);
 
   m_pMainWnd->ShowWindow(SW_SHOW);   m_pMainWnd->UpdateWindow();   return TRUE;
   }
 
-
-
-void ExpTest::OnFilePrintSetup() {
-PrtrOrient orient;
-
-  view()->setPrntrOrient(getDevMode());
-
-    CWinApp::OnFilePrintSetup();
-
-  orient = view()->getPrntrOrient(getDevMode());
-
-  options.setOrient(orient);   view()->setOrientation(options.orient);
-  }
 
 
 int ExpTest::ExitInstance() {
@@ -101,12 +87,12 @@ int ExpTest::ExitInstance() {
   }
 
 
-void ExpTest::OnHelp() {
+void ExpTest::onHelp() {
 String topic = m_pszHelpFilePath; topic += _T(">Introduction");
 
   ::HtmlHelp(m_pMainWnd->m_hWnd, topic,  HH_DISPLAY_TOC, 0);
   }
 
 
-void ExpTest::OnAppAbout() {AboutDlg aboutDlg; aboutDlg.DoModal();}
+void ExpTest::onAppAbout() {AboutDlg aboutDlg; aboutDlg.DoModal();}
 

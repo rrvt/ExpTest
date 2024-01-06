@@ -4,24 +4,16 @@
 #pragma once
 #include "CScrView.h"
 #include "NotePadRpt.h"
-#ifdef Examples
-#include "StoreRpt.h"
-#endif
 
 
 class ExpTestDoc;
 
 
 class ExpTestView : public CScrView {
+CMenu menu;
+CMenu sub;
 
-NotePadRpt dspNote;
-NotePadRpt prtNote;
-#ifdef Examples
-StoreRpt   dspStore;
-StoreRpt   prtStore;
-#endif
-
-protected: // create from serialization only
+protected:                                    // create from serialization only
 
   ExpTestView() noexcept;
 
@@ -29,18 +21,26 @@ protected: // create from serialization only
 
 public:
 
-  virtual ~ExpTestView() { }
+  virtual        ~ExpTestView() { }
 
-  virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+  void            initRptOrietn();
+  void            saveRptOrietn();
 
-  virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
-  virtual void onPrepareOutput(bool printing);
+  virtual BOOL    PreCreateWindow(CREATESTRUCT& cs);
+  virtual void    OnInitialUpdate();
 
-  virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-  virtual void printFooter(Device& dev, int pageNo);
-  virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+  virtual void    displayHeader(DevBase& dev);
+  virtual void    displayFooter(DevBase& dev);
 
-  ExpTestDoc* GetDocument() const;
+  virtual void    onPreparePrinting(CPrintInfo* info);
+  virtual void    onBeginPrinting();
+  virtual void    onDisplayOutput();
+
+  virtual void    printHeader(DevBase& dev, int pageNo);
+  virtual void    printFooter(DevBase& dev, int pageNo);
+  virtual void    OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+
+  ExpTestDoc*     GetDocument() const;
 
 public:
 
@@ -53,12 +53,23 @@ public:
 
   DECLARE_MESSAGE_MAP()
 
+  afx_msg void onOptions();
+  afx_msg void onRptOrietn();
+
   afx_msg void OnSetFocus(CWnd* pOldWnd);
+
+  afx_msg void OnLButtonDown(  UINT nFlags, CPoint point);
+  afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+
+  afx_msg void OnContextMenu(  CWnd* ,      CPoint point);
+  afx_msg void onCopy();
+  afx_msg void onPup1();
+  afx_msg void onPup2();
   };
 
 
+
 #ifndef _DEBUG  // debug version in ExpTestView.cpp
-inline ExpTestDoc* ExpTestView::GetDocument() const
-   { return reinterpret_cast<ExpTestDoc*>(m_pDocument); }
+inline ExpTestDoc* ExpTestView::GetDocument() const {return reinterpret_cast<ExpTestDoc*>(m_pDocument);}
 #endif
 

@@ -1,7 +1,7 @@
 // ToolBar Drop Down Menu
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "TBMenuButton.h"
 
 
@@ -16,4 +16,10 @@ CMenu menu;  if (!menu.LoadMenu(idr)) return false;
   return true;
   }
 
+
+bool TBMenuButton::install(uint idr, uint imageIndex) {
+CMenu menu;  if (!menu.LoadMenu(idr)) return false;
+
+  Initialize(m_nID, menu.GetSafeHmenu(), -1);   SetImage(imageIndex);   return true;
+  }
 

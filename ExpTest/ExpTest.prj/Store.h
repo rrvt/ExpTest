@@ -1,115 +1,106 @@
-// Sample Data Store
+// Store Example
 
 
 #pragma once
 #include "Archive.h"
-#include "Date.h"
-#include "Device.h"
-#include "ExpandableP.h"
+#include "CSVLex.h"
+#include "CSVOut.h"
+#include "Expandable.h"
 #include "IterT.h"
-#include "Wrap.h"
+#include "qsort.h"
+#include "RegExpr.h"
 
-
-
-// This is the Datum record.  It can be a complex as necessary.
-// Set will accept any reasonable group of entities and then will divide up the input into fields in
-// the data.
-// Get will return any grouping of data desired from the record, or there might be multiple get methods
-// that will retrieve invidual or groups of fields.
-// Note, the copy constructor and operator often call a private function that will do all the copying.
 
 class Datum {
 
-String s;
-Wrap   wrp;
-
 public:
 
-  Datum()        { }                                       // Copy constructor: Datum a = b;
-  Datum(Datum& d) {s = d.s;}
- ~Datum()        { }
-
-  void    set(String& s) {this->s = s;}
-  String& get() {return s;}
-
-  void    add(String& stg);                               // Parse the data into the record
-
-  int     wrap(Device& dev, CDC* dc);
-  int     noLines() {return wrp.noLines();}
-
-  int     display();
-
-  Datum&   operator= (Datum& d) {s = d.s; return *this;}   // Copy operator: a = b;
-
-  bool     operator== (Datum& d) {return s == d.s;}
-  bool     operator!= (Datum& d) {return s != d.s;}
-  bool     operator>  (Datum& d) {return s >  d.s;}
-  bool     operator<  (Datum& d) {return s <  d.s;}
-  bool     operator>= (Datum& d) {return s >= d.s;}
-  bool     operator<= (Datum& d) {return s <= d.s;}
-  };
-
-
-// Define an object to hold a pointer to each datum.  When sorting, the pointer is moved, not the
-// datum (which could be large)
-
-typedef DatumPtrT<Datum> DatumP;
-
-// Define the iterator used to look at the data in the datastore.  It is here so that it can be friended
-
-class Store;
-typedef IterT<Store, Datum> DSIter;                        // Iterator for the Store
-
-
-// This is the main store.  I think of it as a permanent home for the data while the program is running.
-// The Expandable array deals with the uncertainty of the amount of data as it expands by doubling in
-// length each time it has to expand.
-// In this example, we provide a way to load it from a file, the details of which are up to the Datum
-// class.  The data can be stored in a file, again the details of each record are enclosed in the Datum
-// class.  We can add something to the store from the user or some other source (TBD).  In this example
-// a sort option is provided to change the order of the data in the array.
-// Finally, the destructor returns the allocated Datum records back to the heap (see cpp file).
-
-class Store {
-
-ExpandableP<Datum, DatumP, 2> data;
-
 public:
+String title;
+String channel;
+Date   date;
+String comment;
+bool   bobPresent;
+bool   maureenPresent;
 
-String name;
-Date   dt;
-int    mssnNo;
+  Datum() : bobPresent(false), maureenPresent(false) { }
+  Datum(Datum& dtm) {copy(dtm);}
 
-  Store() : mssnNo(0) { }
- ~Store() { }
+  bool load(CSVLex& lex);
+  void save(CSVOut& csv);
 
-  void setName(String& s);
-  String date()           {return dt.getDate();}
-  String time()           {return dt.getTime();}
-  int    missionNo();
+  void display(int tab);
 
-  void load(Archive& ar);
-  void store(Archive& ar);
+  Datum& operator=(Datum& dtm) {copy(dtm); return *this;}
 
-  bool isEmpty() {return data.end() == 0;}
+  // Required for Insertion Sort, i.e. data = dtm;           // _tcsicmp
+  bool operator>= (Datum& dtm) {return _tcsicmp(title, dtm.title) >= 0;}
 
-  void add(String& s);
+  // Required for Qsort
+  bool operator<= (Datum& dtm)      {return _tcsicmp(title, dtm.title) <= 0;}
+  bool operator>  (Datum& dtm)      {return _tcsicmp(title, dtm.title) >  0;}
 
-  void sort();
+  // Required for Binary Search                                         // Also required for linear search
+  bool     operator== (const String& ttl);   // {return _tcsicmp(this->title, title) == 0;}
+  bool     operator<  (const String& ttl);   // {return _tcsicmp(this->title, title) <  0;}
+  bool     operator>  (const String& ttl);   // {return _tcsicmp(this->title, title) >  0;}
+
+  bool     operator== (Datum& dtm)  {return _tcsicmp(title, dtm.title) == 0;}
+
+  // Needed for Regular Expression Searches
+
+  bool     operator== (RegExpr& re) {return re.match(title);}
 
 private:
 
-  // returns either a pointer to data (or datum) at index i in array or zero
-  Datum* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
+  bool getLexTok(CSVLex& lex, String& s);
 
-  // returns number of data items in array
-  int   nData()      {return data.end();}
-
-  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
-
-  friend typename DSIter;
+  void copy(Datum& dtm);
   };
 
 
-extern Store store;                                   // Sometimes there only needs to one object
+class Store;
+typedef IterT<Store, Datum> StoreIter;
 
+
+class Store {
+
+int                  ttlLng;
+Expandable<Datum, 2> data;
+
+public:
+
+  Store() { }
+ ~Store() { }
+
+  void load(Archive& ar);
+  void loadAppend(Archive& ar);
+  void loadSorted(Archive& ar);
+
+  void save(Archive& ar);
+
+  void sort() {qsort(&data[0], &data[data.end()-1]);}
+
+  Datum* bSearch(const String& title) {return data.bSearch(title);}
+  Datum* find(   const String& title) {return data.find(title);}
+
+  void display();
+  void display2();
+
+private:
+
+  int findBrk(String& s, int brk);
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+
+  Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}       // or data[i].p
+
+  int    nData()      {return data.end();}                       // returns number of data items in array
+
+  void   removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
+
+  friend typename StoreIter;
+  };
+
+
+extern Store store;
