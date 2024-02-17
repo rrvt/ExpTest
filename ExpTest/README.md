@@ -51,6 +51,13 @@ The "HTML Help Workshop" (google it) must be installed on the PC.
 
 Execute the msi file to install the app.
 
+## Update
+
+### Update 2/16/24
+
+Reorganized the Library so that it compiles once into Debug and Release directories under the Library
+directory.
+
 ## Authors
 
 Robert R. Van Tuyl
